@@ -2,6 +2,7 @@ package com.home24.ui.main.selection
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log.e
 import com.home24.data.db.ArticleDao
 import com.home24.data.db.ArticleEntity
 import com.home24.data.model.ArticleDetails
@@ -10,13 +11,13 @@ import com.home24.ui.main.States
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import android.util.Log.e
+
 /**
  * this model class for SelectFragment
  */
 class SelectionViewModel @Inject constructor(private val repo: HomeRepository, private val dbRepository: ArticleDao) : ViewModel() {
     val articleListData = MutableLiveData<List<ArticleEntity>>()
-
+    val errorData = MutableLiveData<String>()
 
 
     /**
@@ -53,8 +54,7 @@ class SelectionViewModel @Inject constructor(private val repo: HomeRepository, p
 
     private fun onError(error: Throwable) {
         e("Error : " + error.localizedMessage, "")
-        // e { "error ${error.localizedMessage}","" }
-        //originalData.value = ErrorState(error.localizedMessage, obtainCurrentData(), false)
+        errorData.value = error.localizedMessage
     }
 
     private fun onArticleResponseRecieved(articleDetails: ArticleDetails) {

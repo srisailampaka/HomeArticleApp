@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.home24.R
 import com.home24.data.db.ArticleEntity
 import com.home24.ui.main.adapter.ReviewListAdapter
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_review.*
 import javax.inject.Inject
 
 private val TAG = ReviewFragment::class.java.name
+
 /**
  * This fragment class for review the images like or dislike
  */
@@ -57,6 +59,7 @@ class ReviewFragment : Fragment() {
 
     private fun observerViewModel() {
         viewModel.articleListData.observe(this, stateObserver)
+        viewModel.errorData.observe(this, errorStateObserver)
     }
 
 
@@ -67,6 +70,13 @@ class ReviewFragment : Fragment() {
         setAdapter(1)
     }
 
+    private val errorStateObserver = Observer<String> {
+        ProgressDialog.dismissProgressDialog()
+        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+
+    }
+
+
     fun setAdapter(spanCount: Int) {
         recyclerview.layoutManager = GridLayoutManager(activity, spanCount)
         recyclerview.adapter = ReviewListAdapter(articleList)
@@ -76,4 +86,11 @@ class ReviewFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.articleListData.removeObserver(stateObserver)
+        viewModel.errorData.removeObserver(errorStateObserver)
+    }
+
 }

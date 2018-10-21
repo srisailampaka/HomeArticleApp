@@ -2,6 +2,7 @@ package com.home24.ui.main.review
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.home24.data.db.ArticleDao
 import com.home24.data.db.ArticleEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +14,7 @@ import javax.inject.Inject
  */
 class ReviewViewModel @Inject constructor(private val articleDao: ArticleDao) : ViewModel() {
     val articleListData = MutableLiveData<List<ArticleEntity>>()
-
+    val errorData = MutableLiveData<String>()
     /**
      * Method for get the Article list
      */
@@ -29,7 +30,7 @@ class ReviewViewModel @Inject constructor(private val articleDao: ArticleDao) : 
     }
 
     private fun onError(error: Throwable) {
-        //e { "error ${error.localizedMessage}" }
-        //originalData.value = ErrorState(error.localizedMessage, obtainCurrentData(), false)
+        Log.e("Error : " + error.localizedMessage, "")
+        errorData.value = error.localizedMessage
     }
 }

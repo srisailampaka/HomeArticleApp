@@ -65,7 +65,8 @@ class SelectionFragment : Fragment(), ViewPagerListener {
     }
 
     private fun observerViewModel() {
-        viewModel.articleListData.observe(this, stateObserver)
+        viewModel.articleListData.observe(this, articleStateObserver)
+        viewModel.errorData.observe(this, errorStateObserver)
     }
 
     override fun onAttach(context: Context?) {
@@ -76,14 +77,21 @@ class SelectionFragment : Fragment(), ViewPagerListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.articleListData.removeObserver(stateObserver)
+        viewModel.articleListData.removeObserver(articleStateObserver)
+        viewModel.errorData.removeObserver(errorStateObserver)
     }
 
 
-    private val stateObserver = Observer<List<ArticleEntity>> {
+    private val articleStateObserver = Observer<List<ArticleEntity>> {
         ProgressDialog.dismissProgressDialog()
         Log.d(TAG, "data -> ${it!!.size} ")
         viewPager.adapter = ViewpagerAdapter(it, viewModel, this)
+
+    }
+
+    private val errorStateObserver = Observer<String> {
+        ProgressDialog.dismissProgressDialog()
+        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
 
     }
 
