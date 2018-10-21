@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Home24Task</string>
+    <string name="start">Start</string>
+    <string name="review">Review</string>
+    <string name="list">ListView</string>
+    <string name="grid">GridView</string>
+    <string name="loading">Loading...</string>
+    <string name="network_error">Please check the network connection</string>
+    <string name="message">Do you want start again ?</string>
+    <string name="liked">Like</string>
+    <string name="disliked">DisLike</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+</resources>
